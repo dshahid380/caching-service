@@ -1,6 +1,8 @@
 package com.cachingservice.algorithmsImp;
 
-public class DoublyLinkedList {
+import com.cachingservice.algorithmIterfaces.LinkedList;
+
+public class DoublyLinkedList implements LinkedList {
     private final Node head;
     private final Node tail;
     private int size;
