@@ -15,6 +15,7 @@ public class DoublyLinkedList implements LinkedList {
         size = 0;
     }
 
+    @Override
     public void addAfterHead(Node node) {
         Node currentNode = head.getRightNodeRef();
         head.setRightNodeRef(node);
@@ -24,20 +25,24 @@ public class DoublyLinkedList implements LinkedList {
         size++;
     }
 
+    @Override
     public void deleteNodeByRef(Node node) {
         node.getLeftNodeRef().setRightNodeRef(node.getRightNodeRef());
         node.getRightNodeRef().setLeftNodeRef(node.getLeftNodeRef());
         size--;
     }
 
+    @Override
     public int getSize() {
         return size;
     }
 
+    @Override
     public Node getHeadNodeRef() {
         return head;
     }
 
+    @Override
     public Node getTailNodeRef() {
         return tail;
     }
