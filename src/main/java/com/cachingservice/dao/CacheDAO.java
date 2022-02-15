@@ -12,10 +12,20 @@ import org.springframework.stereotype.Repository;
 public class CacheDAO {
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private MinMaxIndexDAO minMaxIndexDAO;
 
     public void insert(KeyValue keyValue) {
+        keyValue.setSortOrder(minMaxIndexDAO.getMaxId());
         Update update = MongoUtils.updatedKeyValue(keyValue);
         Query query = MongoUtils.insertQuery(keyValue.getKey());
         mongoTemplate.upsert(query, update, KeyValue.class);
     }
+
+//    public KeyValue fetchLast() {
+//        Query query = new Query();
+//        query.limit(1);
+//        query.with(Sort.by(Sort.Direction.DESC,"_id"));
+//        return mongoTemplate.findOne(query, KeyValue.class);
+//    }
 }

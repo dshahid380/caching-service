@@ -15,6 +15,7 @@ public class MongoUtils {
     public static Update updatedKeyValue(KeyValue keyValue) {
         Update updatedElement = new Update();
         updatedElement.set("value", keyValue.getValue());
+        updatedElement.set("sortOrder", keyValue.getSortOrder());
         return updatedElement;
     }
 }
