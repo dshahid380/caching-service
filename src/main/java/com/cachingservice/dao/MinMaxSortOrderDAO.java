@@ -1,6 +1,6 @@
 package com.cachingservice.dao;
 
-import com.cachingservice.model.MinMaxIndex;
+import com.cachingservice.model.MinMaxSortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -13,7 +13,7 @@ import java.util.Objects;
 import static org.springframework.data.mongodb.core.FindAndModifyOptions.options;
 
 @Repository
-public class MinMaxIndexDAO {
+public class MinMaxSortOrderDAO {
     @Autowired
     private MongoTemplate mongoTemplate;
     private final String SEQUENCE_NAME = "minMaxId";
@@ -21,19 +21,19 @@ public class MinMaxIndexDAO {
     private final String MIN_ID = "minId";
     private final String MAX_ID = "maxId";
 
-    public int getMinId() {
+    public int getMinSortOrder() {
         Query query = new Query(Criteria.where(ID).is(SEQUENCE_NAME));
         Update update = new Update().inc(MIN_ID, 1);
-        MinMaxIndex minIndex = mongoTemplate.findAndModify(query, update,
-                options().returnNew(true).upsert(true), MinMaxIndex.class);
-        return !Objects.isNull(minIndex) ? minIndex.getMinId() : 1;
+        MinMaxSortOrder minSortOrder = mongoTemplate.findAndModify(query, update,
+                options().returnNew(true).upsert(true), MinMaxSortOrder.class);
+        return !Objects.isNull(minSortOrder) ? minSortOrder.getMinSortOrder() : 1;
     }
 
-    public int getMaxId() {
+    public int getMaxSortOrder() {
         Query query = new Query(Criteria.where(ID).is(SEQUENCE_NAME));
         Update update = new Update().inc(MAX_ID, 1);
-        MinMaxIndex maxIndex = mongoTemplate.findAndModify(query, update,
-                options().returnNew(true).upsert(true), MinMaxIndex.class);
-        return !Objects.isNull(maxIndex) ? maxIndex.getMaxId() : 1;
+        MinMaxSortOrder maxSortOrder = mongoTemplate.findAndModify(query, update,
+                options().returnNew(true).upsert(true), MinMaxSortOrder.class);
+        return !Objects.isNull(maxSortOrder) ? maxSortOrder.getMaxSortOrder() : 1;
     }
 }

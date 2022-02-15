@@ -13,10 +13,10 @@ public class CacheDAO {
     @Autowired
     private MongoTemplate mongoTemplate;
     @Autowired
-    private MinMaxIndexDAO minMaxIndexDAO;
+    private MinMaxSortOrderDAO minMaxSortOrderDAO;
 
     public void insert(KeyValue keyValue) {
-        keyValue.setSortOrder(minMaxIndexDAO.getMaxId());
+        keyValue.setSortOrder(minMaxSortOrderDAO.getMaxSortOrder());
         Update update = MongoUtils.updatedKeyValue(keyValue);
         Query query = MongoUtils.insertQuery(keyValue.getKey());
         mongoTemplate.upsert(query, update, KeyValue.class);

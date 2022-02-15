@@ -10,9 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document()
-public class MinMaxIndex {
+public class MinMaxSortOrder {
     @Id
-    private String id;
-    private int minId;
-    private int maxId;
+    private String sequenceName;
+    private int minSortOrder;
+    private int maxSortOrder;
 }
