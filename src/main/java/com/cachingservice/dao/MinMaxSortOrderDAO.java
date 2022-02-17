@@ -10,16 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
 
+import static com.cachingservice.utils.Constants.ID;
+import static com.cachingservice.utils.Constants.MAX_ID;
+import static com.cachingservice.utils.Constants.MIN_ID;
+import static com.cachingservice.utils.Constants.SEQUENCE_NAME;
 import static org.springframework.data.mongodb.core.FindAndModifyOptions.options;
 
 @Repository
 public class MinMaxSortOrderDAO {
     @Autowired
     private MongoTemplate mongoTemplate;
-    private final String SEQUENCE_NAME = "minMaxId";
-    private final String ID = "id";
-    private final String MIN_ID = "minId";
-    private final String MAX_ID = "maxId";
 
     public int getMinSortOrder() {
         Query query = new Query(Criteria.where(ID).is(SEQUENCE_NAME));
