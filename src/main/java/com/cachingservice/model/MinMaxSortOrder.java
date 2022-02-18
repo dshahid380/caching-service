@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document()
 public class MinMaxSortOrder {
     @Id
-    private String sequenceName;
+    private String id;
     private int minSortOrder;
     private int maxSortOrder;
 }
