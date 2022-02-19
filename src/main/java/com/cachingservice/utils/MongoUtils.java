@@ -12,7 +12,7 @@ import static com.cachingservice.utils.Constants.ID;
 import static com.cachingservice.utils.Constants.SEQUENCE_NAME;
 
 public class MongoUtils {
-    public static Query insertQuery(String key) {
+    public static Query queryByKey(String key) {
         Query query = new Query();
         query.addCriteria(Criteria.where(CACHE_KEY_NAME).is(key));
         return query;

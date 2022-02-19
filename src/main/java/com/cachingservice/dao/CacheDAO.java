@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import static com.cachingservice.utils.Constants.CACHE_SORT_ORDER;
 import static com.cachingservice.utils.Constants.ID;
+import static com.cachingservice.utils.MongoUtils.queryByKey;
 
 @Repository
 public class CacheDAO {
@@ -23,9 +24,18 @@ public class CacheDAO {
     private MinMaxSortOrderDAO minMaxSortOrderDAO;
 
     public void insert(KeyValue keyValue) {
-        keyValue.setSortOrder(minMaxSortOrderDAO.incrementAndGetMaxSortOrder());
+        KeyValue cacheElement = fetchCacheElement(keyValue);
+        int sortOrder = minMaxSortOrderDAO.getMaxSortOrder();
+        if (Objects.isNull(cacheElement) || sortOrder != cacheElement.getSortOrder()) {
+            sortOrder = minMaxSortOrderDAO.incrementAndGetMaxSortOrder();
+        }
+        update(keyValue, sortOrder);
+    }
+
+    private void update(KeyValue keyValue, int sortOrder) {
+        keyValue.setSortOrder(sortOrder);
         Update update = MongoUtils.updatedKeyValue(keyValue);
-        Query query = MongoUtils.insertQuery(keyValue.getKey());
+        Query query = queryByKey(keyValue.getKey());
         mongoTemplate.upsert(query, update, KeyValue.class);
     }
 
@@ -36,8 +46,8 @@ public class CacheDAO {
         return mongoTemplate.findOne(query, KeyValue.class);
     }
 
-    private boolean isKeyPresent(KeyValue keyValue) {
-        Query query = new Query(Criteria.where(ID).is(keyValue.getKey()));
-        return Objects.nonNull(mongoTemplate.findById(query, KeyValue.class));
+    private KeyValue fetchCacheElement(KeyValue keyValue) {
+        Query query = queryByKey(keyValue.getKey());
+        return mongoTemplate.findById(keyValue.getKey(), KeyValue.class);
     }
 }
